@@ -176,6 +176,58 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 .proj-link{font-size:12px;font-weight:600;color:#D97706;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap 0.3s}
 .proj-showcase:hover .proj-link{gap:12px}
 
+/* === ANIMATED MOCKUPS === */
+/* NUX typing */
+.nux-anim .chat-line{opacity:0;transform:translateY(8px);animation:chatPop 0.4s ease forwards}
+.nux-anim .chat-line:nth-child(1){animation-delay:0.5s}
+.nux-anim .chat-line:nth-child(2){animation-delay:2s}
+.nux-anim .chat-line:nth-child(3){animation-delay:3.5s}
+.nux-anim .chat-line:nth-child(4){animation-delay:5s}
+@keyframes chatPop{to{opacity:1;transform:translateY(0)}}
+.typing-dots{display:inline-flex;gap:3px;padding:6px 10px;border-radius:8px;background:rgba(139,92,246,0.04);border:1px solid rgba(139,92,246,0.06);opacity:0;animation:typingShow 0.3s ease 1.5s forwards,typingHide 0.3s ease 1.9s forwards,typingShow 0.3s ease 3s forwards,typingHide 0.3s ease 3.4s forwards,typingShow 0.3s ease 4.5s forwards,typingHide 0.3s ease 4.9s forwards}
+.typing-dots span{width:4px;height:4px;border-radius:50%;background:#8B5CF6;animation:dotBounce 1.2s ease-in-out infinite}
+.typing-dots span:nth-child(2){animation-delay:0.15s}
+.typing-dots span:nth-child(3){animation-delay:0.3s}
+@keyframes dotBounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+@keyframes typingShow{to{opacity:1}}
+@keyframes typingHide{to{opacity:0}}
+
+/* Distro pipeline glow */
+.pipe-anim .pipe-step{opacity:0.3;transition:all 0.5s}
+.pipe-anim .pipe-step.active{opacity:1;box-shadow:0 0 12px var(--pipe-glow)}
+.pipe-pulse{animation:pipePulse 8s ease-in-out infinite}
+@keyframes pipePulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 15px var(--pipe-glow)}}
+
+/* Phantom encryption effect */
+.encrypt-text{font-family:'JetBrains Mono';letter-spacing:1px}
+.decrypt-anim{animation:decryptFlicker 0.8s steps(5) forwards}
+@keyframes decryptFlicker{0%{color:#A78BFA;text-shadow:0 0 8px rgba(167,139,250,0.5)}50%{color:#EC4899;text-shadow:0 0 12px rgba(236,72,153,0.4)}100%{color:rgba(255,255,255,0.5);text-shadow:none}}
+.encrypt-bar{height:3px;border-radius:2px;background:linear-gradient(90deg,#A78BFA,#EC4899);animation:encryptScan 2s ease-in-out infinite;transform-origin:left}
+@keyframes encryptScan{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
+
+/* PPAP checkmark cascade */
+.ppap-anim .ppap-check{opacity:0;transform:scale(0.5);animation:checkPop 0.3s ease forwards}
+.ppap-anim .ppap-check:nth-child(1){animation-delay:0.3s}
+.ppap-anim .ppap-check:nth-child(2){animation-delay:0.7s}
+.ppap-anim .ppap-check:nth-child(3){animation-delay:1.1s}
+.ppap-anim .ppap-check:nth-child(4){animation-delay:1.5s}
+.ppap-anim .ppap-check:nth-child(5){animation-delay:1.9s}
+.ppap-anim .ppap-check:nth-child(6){animation-delay:2.3s}
+.ppap-anim .ppap-check:nth-child(7){animation-delay:2.7s}
+.ppap-anim .ppap-check:nth-child(8){animation-delay:3.1s}
+.ppap-anim .ppap-check:nth-child(9){animation-delay:3.5s}
+@keyframes checkPop{to{opacity:1;transform:scale(1)}}
+.progress-fill{height:4px;border-radius:2px;background:linear-gradient(90deg,#10B981,#06B6D4);animation:progressGrow 4s ease forwards;transform:scaleX(0);transform-origin:left}
+@keyframes progressGrow{to{transform:scaleX(1)}}
+
+/* === ANIMATED COUNTER === */
+.counter-section{position:relative;z-index:2;padding:80px;max-width:1400px;margin:0 auto}
+.counter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.counter-item{text-align:center;padding:36px 20px}
+.counter-val{font-size:48px;font-weight:900;letter-spacing:-2px;margin-bottom:6px}
+.counter-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+@media(max-width:768px){.counter-grid{grid-template-columns:1fr 1fr}.counter-val{font-size:36px}}
+
 /* === CERTIFICATIONS === */
 .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .cert-card{padding:28px;display:flex;gap:18px;align-items:start;opacity:0}
@@ -471,10 +523,13 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
         <div class="proj-mockup">
           <div class="proj-device">
             <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">aveio-web.vercel.app</div></div>
-            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+            <div class="proj-device-body nux-anim" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
               <div style="font-size:11px;font-weight:800;color:#8B5CF6;margin-bottom:8px">NUX</div>
-              <div style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.08);border-radius:8px;padding:8px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,0.5)">Your streak: 12 days. 3 skill gaps found.</div>
-              <div style="background:rgba(217,119,6,0.05);border:1px solid rgba(217,119,6,0.08);border-radius:8px;padding:8px;margin-left:20%;font-size:9px;color:rgba(217,119,6,0.7)">What are the gaps?</div>
+              <div class="chat-line" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.08);border-radius:8px 8px 8px 2px;padding:8px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,0.5)">Good morning Vijay. Your streak: 12 days 🔥</div>
+              <div class="typing-dots"><span></span><span></span><span></span></div>
+              <div class="chat-line" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.08);border-radius:8px 8px 8px 2px;padding:8px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,0.5)">I found 3 skill gaps for your PM goal.</div>
+              <div class="chat-line" style="background:rgba(217,119,6,0.05);border:1px solid rgba(217,119,6,0.08);border-radius:8px 8px 2px 8px;padding:8px;margin-left:20%;margin-bottom:6px;font-size:9px;color:rgba(217,119,6,0.7)">Show me the gaps</div>
+              <div class="chat-line" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.08);border-radius:8px 8px 8px 2px;padding:8px;font-size:9px;color:rgba(255,255,255,0.5)">1. SQL analytics ✓<br/>2. A/B testing ✓<br/>3. Stakeholder comm ✓<br/>Tasks created.</div>
             </div>
           </div>
         </div>
@@ -503,9 +558,10 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
         <div class="proj-mockup">
           <div class="proj-device">
             <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">distro.app/pipeline</div></div>
-            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
-              <div style="display:flex;gap:3px;margin-bottom:8px"><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(139,92,246,0.08);color:#8B5CF6">DECODE</span><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(240,160,32,0.08);color:#F0A020">CHANNEL</span><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(45,189,130,0.08);color:#2DBD82">SPEAK</span></div>
-              <div style="background:rgba(240,160,32,0.04);border:1px solid rgba(240,160,32,0.08);border-radius:6px;padding:6px;font-size:8px;color:rgba(255,255,255,0.4)"><b style="color:#F0A020">ICP:</b> Solo SaaS founders, 25-40</div>
+            <div class="proj-device-body pipe-anim" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+              <div style="display:flex;gap:3px;margin-bottom:8px"><span class="pipe-step" style="--pipe-glow:rgba(139,92,246,0.4);flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(139,92,246,0.08);color:#8B5CF6">DECODE</span><span class="pipe-step" style="--pipe-glow:rgba(240,160,32,0.4);flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(240,160,32,0.08);color:#F0A020">CHANNEL</span><span class="pipe-step" style="--pipe-glow:rgba(45,189,130,0.4);flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(45,189,130,0.08);color:#2DBD82">SPEAK</span><span class="pipe-step" style="--pipe-glow:rgba(167,139,250,0.4);flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(167,139,250,0.08);color:#A78BFA">LEARN</span></div>
+              <div style="background:rgba(240,160,32,0.04);border:1px solid rgba(240,160,32,0.08);border-radius:6px;padding:6px;font-size:8px;color:rgba(255,255,255,0.4);margin-bottom:4px"><b style="color:#F0A020">ICP:</b> Solo SaaS founders, 25-40</div>
+              <div style="background:rgba(45,189,130,0.04);border:1px solid rgba(45,189,130,0.08);border-radius:6px;padding:6px;font-size:8px;color:rgba(255,255,255,0.35);font-style:italic">"Show HN: I built a GTM engine..."</div>
             </div>
           </div>
         </div>
@@ -535,8 +591,11 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
           <div class="proj-device">
             <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">phantom.app</div></div>
             <div class="proj-device-body" style="background:#04041A">
-              <div style="display:flex;align-items:center;gap:3px;padding:4px;background:rgba(167,139,250,0.03);border-radius:4px;justify-content:center;margin-bottom:6px;font-size:7px"><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">You</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">A</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">B</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(236,72,153,0.08);color:#EC4899;font-weight:600">Recv</span></div>
-              <div style="font-size:7px;text-align:center;color:rgba(255,255,255,0.15);letter-spacing:2px">🔒 AES-256-GCM</div>
+              <div style="display:flex;align-items:center;gap:3px;padding:4px;background:rgba(167,139,250,0.03);border-radius:4px;justify-content:center;margin-bottom:6px;font-size:7px"><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">You</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">Node A</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">Node B</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(236,72,153,0.08);color:#EC4899;font-weight:600">Recv</span></div>
+              <div class="encrypt-bar" style="margin-bottom:6px"></div>
+              <div style="font-size:7px;text-align:center;color:rgba(255,255,255,0.15);letter-spacing:2px;margin-bottom:6px">🔒 AES-256-GCM ACTIVE</div>
+              <div class="chat-line" style="opacity:0;animation:chatPop 0.4s ease 1s forwards;background:rgba(167,139,250,0.04);border:1px solid rgba(167,139,250,0.06);border-radius:6px;padding:5px 8px;font-size:8px;color:rgba(167,139,250,0.6);margin-bottom:4px">📎 encrypted_doc.aes</div>
+              <div class="chat-line" style="opacity:0;animation:chatPop 0.4s ease 2s forwards;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.06);border-radius:6px;padding:5px 8px;font-size:8px;color:rgba(236,72,153,0.6);margin-left:25%">Decrypted ✓</div>
             </div>
           </div>
         </div>
@@ -565,9 +624,10 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
         <div class="proj-mockup">
           <div class="proj-device">
             <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">ppap-builder.app</div></div>
-            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+            <div class="proj-device-body ppap-anim" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
               <div style="font-size:10px;font-weight:800;color:#10B981;margin-bottom:6px">PPAP Builder</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">18</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Elements</div></div><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">5</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Levels</div></div><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">AI</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Powered</div></div></div>
+              <div class="progress-fill" style="margin-bottom:8px"></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px"><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ Design</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ DFMEA</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ Flow</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ PFMEA</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ Control</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ MSA</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ Dim</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ Material</div><div class="ppap-check" style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:3px;padding:3px 5px;font-size:7px;color:#10B981">✓ PSW</div></div>
             </div>
           </div>
         </div>
@@ -801,6 +861,28 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
         </div>
         <button type="submit" class="form-submit">Send Message ↗</button>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== IMPACT COUNTER ==================== -->
+<section class="counter-section">
+  <div class="counter-grid">
+    <div class="glass counter-item">
+      <div class="counter-val" style="color:#D97706" data-target="5">0</div>
+      <div class="counter-label">Products Shipped</div>
+    </div>
+    <div class="glass counter-item">
+      <div class="counter-val" style="color:#8B5CF6" data-target="38">0</div>
+      <div class="counter-label">API Routes Built</div>
+    </div>
+    <div class="glass counter-item">
+      <div class="counter-val" style="color:#10B981" data-target="14000">0</div>
+      <div class="counter-label">Records Processed</div>
+    </div>
+    <div class="glass counter-item">
+      <div class="counter-val" style="color:#A78BFA" data-target="256">0</div>
+      <div class="counter-label">Bit Encryption</div>
     </div>
   </div>
 </section>
@@ -1083,6 +1165,48 @@ document.querySelectorAll('.btn-primary,.btn-outline,.form-submit').forEach(btn 
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('visible', window.scrollY > 200);
 });
+
+// ==================== DISTRO PIPELINE ANIMATION ====================
+function animatePipeline(){
+  const steps = document.querySelectorAll('.pipe-anim .pipe-step');
+  if(!steps.length) return;
+  let idx = 0;
+  function lightUp(){
+    steps.forEach(s => s.classList.remove('active'));
+    steps[idx].classList.add('active');
+    idx = (idx + 1) % steps.length;
+  }
+  lightUp();
+  setInterval(lightUp, 1500);
+}
+// Start when visible
+const pipeObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ animatePipeline(); pipeObs.disconnect(); }});
+}, {threshold:0.3});
+const pipeEl = document.querySelector('.pipe-anim');
+if(pipeEl) pipeObs.observe(pipeEl);
+
+// ==================== COUNTER ANIMATION ====================
+function animateCounters(){
+  document.querySelectorAll('.counter-val[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const duration = 2000;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * ease).toLocaleString();
+      if(p < 1) requestAnimationFrame(tick);
+      else el.textContent = target >= 1000 ? target.toLocaleString()+'+' : target.toString();
+    }
+    requestAnimationFrame(tick);
+  });
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ animateCounters(); counterObs.disconnect(); }});
+}, {threshold:0.3});
+const counterEl = document.querySelector('.counter-grid');
+if(counterEl) counterObs.observe(counterEl);
 </script>
 </body>
 </html>
