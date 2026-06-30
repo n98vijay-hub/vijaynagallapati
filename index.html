@@ -41,7 +41,7 @@ background-size:80px 80px}
 .cursor-ring{position:fixed;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(217,119,6,0.35);pointer-events:none;z-index:10000;transition:width 0.3s,height 0.3s,border-color 0.3s,background 0.3s}
 .cursor-ring.hover{width:64px;height:64px;border-color:rgba(139,92,246,0.5);background:rgba(217,119,6,0.06)}
 
-/* === SPOTLIGHT (follows mouse) === */
+/* === SPOTLIGHT === */
 .spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;
 background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,0.06),transparent 40%)}
 
@@ -75,6 +75,10 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 .section-label{font-size:11px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#D97706;margin-bottom:16px;display:flex;align-items:center;gap:12px}
 .section-label::before{content:'';width:40px;height:1px;background:linear-gradient(90deg,#D97706,transparent)}
 .section-title{font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1.1;margin-bottom:48px;letter-spacing:-1px}
+
+/* === SECTION DIVIDER === */
+.section-divider{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:0 80px}
+.section-divider::after{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(217,119,6,0.15),rgba(139,92,246,0.15),transparent)}
 
 /* === HERO === */
 .hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;padding:0 80px;max-width:1400px;margin:0 auto}
@@ -112,12 +116,6 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 .scroll-mouse::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:2px;height:6px;border-radius:1px;background:#D97706;animation:scrollWheel 2s ease-in-out infinite}
 @keyframes scrollWheel{0%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(12px)}}
 
-/* === MARQUEE === */
-.marquee-wrap{position:relative;z-index:2;padding:40px 0;border-top:1px solid rgba(217,119,6,0.06);border-bottom:1px solid rgba(217,119,6,0.06);overflow:hidden}
-.marquee{display:flex;gap:60px;animation:marqueeScroll 30s linear infinite;width:max-content}
-.marquee span{font-size:14px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(217,119,6,0.3);white-space:nowrap}
-@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
 /* === GLASS CARD === */
 .glass{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:16px;position:relative;overflow:hidden;transition:all 0.5s cubic-bezier(0.23,1,0.32,1)}
 .glass::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.5s;background:radial-gradient(600px circle at var(--card-mx,50%) var(--card-my,50%),rgba(139,92,246,0.08),transparent 40%);pointer-events:none}
@@ -127,7 +125,6 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 /* === EXPERIENCE === */
 .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .exp-card{padding:36px;position:relative;opacity:0}
-.exp-card.gsap-revealed{opacity:1}
 .exp-card .icon{font-size:28px;margin-bottom:16px}
 .exp-card h3{font-size:18px;font-weight:800;margin-bottom:6px;letter-spacing:-0.3px}
 .exp-card .company{font-size:13px;font-weight:600;color:#D97706;margin-bottom:4px}
@@ -136,16 +133,91 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 .exp-highlight{background:linear-gradient(135deg,rgba(217,119,6,0.04),rgba(139,92,246,0.02));border-color:rgba(217,119,6,0.12)}
 .exp-wide{grid-column:span 2}
 
-/* === PROJECTS === */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-.proj-card{padding:32px;position:relative;opacity:0}
-.proj-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:6px;margin-bottom:16px}
-.proj-card h3{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-0.3px}
-.proj-card .desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:18px}
-.proj-card .tech{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.proj-card .tech span{font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.4)}
+/* === ORBITING TECH STACK === */
+.orbit-section{position:relative;z-index:2;padding:140px 80px;max-width:1400px;margin:0 auto}
+.orbit-container{position:relative;width:500px;height:500px;margin:0 auto}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,rgba(217,119,6,0.1),rgba(139,92,246,0.1));border:1px solid rgba(217,119,6,0.2);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:5}
+.orbit-center-text{font-size:11px;font-weight:800;letter-spacing:3px;color:#D97706;text-transform:uppercase}
+.orbit-center-sub{font-size:9px;color:rgba(255,255,255,0.3);margin-top:4px}
+.orbit-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(139,92,246,0.06);transform:translate(-50%,-50%)}
+.orbit-ring-1{width:250px;height:250px;animation:orbitSpin 35s linear infinite}
+.orbit-ring-2{width:370px;height:370px;animation:orbitSpin 50s linear infinite reverse}
+.orbit-ring-3{width:480px;height:480px;animation:orbitSpin 65s linear infinite}
+@keyframes orbitSpin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+.orbit-bubble{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all 0.4s;cursor:default}
+.orbit-bubble:hover{transform:scale(1.3)!important;z-index:10}
+.orbit-bubble-sm{width:48px;height:48px;background:rgba(217,119,6,0.06);border:1px solid rgba(217,119,6,0.15);color:rgba(217,119,6,0.8)}
+.orbit-bubble-md{width:60px;height:60px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);color:rgba(139,92,246,0.8)}
+.orbit-bubble-lg{width:72px;height:72px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);color:rgba(245,158,11,0.8)}
+
+/* === PROJECTS (SHOWCASE CARDS) === */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.proj-showcase{padding:0;overflow:hidden;opacity:0}
+.proj-showcase-top{position:relative;padding:32px 32px 0;overflow:hidden}
+.proj-showcase-color{position:absolute;top:0;left:0;right:0;height:4px}
+.proj-num{position:absolute;top:24px;right:28px;font-size:64px;font-weight:900;color:rgba(255,255,255,0.03);letter-spacing:-3px;line-height:1}
+.proj-category{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.proj-category::before{content:'';width:6px;height:6px;border-radius:50%}
+.proj-showcase h3{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px}
+.proj-showcase .tech{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.proj-showcase .tech span{font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.45)}
+.proj-showcase .desc{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:20px}
+.proj-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.proj-stat{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:10px;padding:14px;text-align:center}
+.proj-stat-val{font-size:20px;font-weight:800;margin-bottom:2px}
+.proj-stat-label{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.proj-mockup{margin:20px auto 0;width:85%;max-width:320px}
+.proj-device{background:#0A0E1A;border:1px solid rgba(255,255,255,0.06);border-radius:12px 12px 0 0;overflow:hidden}
+.proj-device-bar{height:28px;background:rgba(17,20,37,0.9);display:flex;align-items:center;padding:0 10px;gap:5px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.proj-device-dot{width:7px;height:7px;border-radius:50%}
+.proj-device-url{margin-left:8px;font-size:9px;font-family:'JetBrains Mono';color:rgba(255,255,255,0.2);background:rgba(0,0,0,0.3);padding:3px 10px;border-radius:4px;flex:1}
+.proj-device-body{padding:14px;min-height:140px;font-size:10px;color:rgba(255,255,255,0.4)}
+.proj-showcase-bottom{padding:20px 32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.04)}
 .proj-link{font-size:12px;font-weight:600;color:#D97706;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap 0.3s}
-.proj-card:hover .proj-link{gap:12px}
+.proj-showcase:hover .proj-link{gap:12px}
+
+/* === CERTIFICATIONS === */
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cert-card{padding:28px;display:flex;gap:18px;align-items:start;opacity:0}
+.cert-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:1px;flex-shrink:0}
+.cert-info h4{font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-0.3px}
+.cert-info .cert-issuer{font-size:12px;font-weight:600;color:#D97706;margin-bottom:4px}
+.cert-info .cert-date{font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:2px}
+.cert-info .cert-id{font-size:10px;color:rgba(255,255,255,0.2);font-family:'JetBrains Mono'}
+.cert-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#8B5CF6;text-decoration:none;margin-top:8px;transition:gap 0.3s}
+.cert-link:hover{gap:8px}
+
+/* === SKILLS === */
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sk-cat{padding:28px}
+.sk-cat h4{font-size:14px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7)}
+.sk-pills{display:flex;flex-wrap:wrap;gap:8px}
+.sk-pill{font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);transition:all 0.4s}
+.sk-pill:hover{border-color:rgba(217,119,6,0.3);color:#E8EAF0;background:rgba(217,119,6,0.06);box-shadow:0 0 20px rgba(217,119,6,0.08)}
+
+/* === CONTACT FORM === */
+.contact-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact-info h2{font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1.1;margin-bottom:20px;letter-spacing:-1px}
+.contact-info p{font-size:16px;color:rgba(255,255,255,0.4);line-height:1.8;margin-bottom:36px}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link-item{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:12px;text-decoration:none;transition:all 0.4s}
+.contact-link-item:hover{transform:translateX(8px)}
+.contact-link-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.contact-link-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.contact-link-value{font-size:14px;font-weight:600;color:#E8EAF0}
+.contact-form-card{padding:36px;border-radius:20px}
+.contact-form-header{display:flex;align-items:center;gap:8px;margin-bottom:24px}
+.contact-form-dots{display:flex;gap:5px}
+.contact-form-dots span{width:10px;height:10px;border-radius:50%}
+.contact-form-title{font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);margin-left:8px;font-family:'JetBrains Mono'}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px}
+.form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px 16px;color:#E8EAF0;font-size:14px;font-family:'Inter',sans-serif;transition:border-color 0.3s;outline:none}
+.form-group input:focus,.form-group textarea:focus{border-color:rgba(217,119,6,0.4)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.15)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#D97706,#B45309);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.4s;display:flex;align-items:center;justify-content:center;gap:8px}
+.form-submit:hover{box-shadow:0 0 30px rgba(217,119,6,0.4);transform:translateY(-2px)}
 
 /* === DEEP DIVES === */
 .deep{position:relative;z-index:2;padding:100px 80px;max-width:1400px;margin:0 auto}
@@ -195,36 +267,32 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 .ppap-ck.d{border-color:#10B981;background:rgba(16,185,129,0.1);color:#10B981}
 .ppap-ck.p{border-color:rgba(255,255,255,0.15);color:transparent}
 
-/* === SKILLS === */
-.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.sk-cat{padding:28px}
-.sk-cat h4{font-size:14px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.7)}
-.sk-pills{display:flex;flex-wrap:wrap;gap:8px}
-.sk-pill{font-size:11px;font-weight:500;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.4);transition:all 0.4s}
-.sk-pill:hover{border-color:rgba(217,119,6,0.3);color:#E8EAF0;background:rgba(217,119,6,0.06);box-shadow:0 0 20px rgba(217,119,6,0.08)}
-
-/* === CONTACT === */
-.contact-box{text-align:center;max-width:640px;margin:0 auto}
-.c-links{display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap}
-.c-links a{display:flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;font-weight:600;transition:all 0.4s}
-.c-links a:hover{color:#E8EAF0;transform:translateY(-2px)}
-
 /* === FOOTER === */
 .footer{text-align:center;padding:48px 80px;color:rgba(255,255,255,0.2);font-size:11px;letter-spacing:1px;border-top:1px solid rgba(255,255,255,0.03)}
 
 /* === RESPONSIVE === */
 @media(max-width:768px){
   .cursor-dot,.cursor-ring,.spotlight{display:none!important}
-  .hero,.section,.deep{padding-left:24px;padding-right:24px}
-  .hero-grid,.deep-grid,.exp-grid{grid-template-columns:1fr}
+  .hero,.section,.deep,.orbit-section{padding-left:24px;padding-right:24px}
+  .hero-grid,.deep-grid,.exp-grid,.contact-wrapper{grid-template-columns:1fr}
   .exp-wide{grid-column:span 1}
-  .proj-grid,.sk-grid{grid-template-columns:1fr}
+  .proj-grid,.sk-grid,.cert-grid{grid-template-columns:1fr}
   .nav-links{display:none}.nav{padding:16px 24px}
   .photo-frame{width:260px;height:320px}
   .hero-grid{gap:48px}.nux-sb{display:none}
   .ppap-els{grid-template-columns:1fr 1fr}
   .hero-name{letter-spacing:-2px}
   .footer{padding:40px 24px}
+  .orbit-container{width:320px;height:320px}
+  .orbit-ring-1{width:160px!important;height:160px!important}
+  .orbit-ring-2{width:240px!important;height:240px!important}
+  .orbit-ring-3{width:310px!important;height:310px!important}
+  .orbit-bubble-sm{width:36px!important;height:36px!important;font-size:7px!important}
+  .orbit-bubble-md{width:44px!important;height:44px!important;font-size:7px!important}
+  .orbit-bubble-lg{width:52px!important;height:52px!important;font-size:8px!important}
+  .orbit-center{width:80px;height:80px}
+  .orbit-center-text{font-size:9px}
+  .section-divider{padding:0 24px}
 }
 </style>
 </head>
@@ -253,7 +321,7 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 <nav class="nav" id="mainNav">
   <div class="nav-logo"><span class="glow">VN</span></div>
   <div class="nav-links">
-    <a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+    <a href="#experience">Experience</a><a href="#tech">Tech</a><a href="#projects">Projects</a><a href="#certs">Certs</a><a href="#contact">Contact</a>
   </div>
 </nav>
 
@@ -288,14 +356,7 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
   <div class="scroll-cue"><span>Scroll</span><div class="scroll-mouse"></div></div>
 </section>
 
-
-<!-- ==================== MARQUEE ==================== -->
-<div class="marquee-wrap">
-  <div class="marquee" id="marquee">
-    <span>NEXT.JS</span><span>•</span><span>REACT</span><span>•</span><span>TYPESCRIPT</span><span>•</span><span>CLAUDE API</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>THREE.JS</span><span>•</span><span>STRIPE</span><span>•</span><span>NODE.JS</span><span>•</span><span>POSTGRESQL</span><span>•</span><span>AES-256-GCM</span><span>•</span><span>VERCEL</span><span>•</span>
-    <span>NEXT.JS</span><span>•</span><span>REACT</span><span>•</span><span>TYPESCRIPT</span><span>•</span><span>CLAUDE API</span><span>•</span><span>SUPABASE</span><span>•</span><span>PYTHON</span><span>•</span><span>THREE.JS</span><span>•</span><span>STRIPE</span><span>•</span><span>NODE.JS</span><span>•</span><span>POSTGRESQL</span><span>•</span><span>AES-256-GCM</span><span>•</span><span>VERCEL</span><span>•</span>
-  </div>
-</div>
+<div class="section-divider"></div>
 
 <!-- ==================== EXPERIENCE ==================== -->
 <section class="section" id="experience">
@@ -349,48 +410,193 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
   </div>
 </section>
 
+<div class="section-divider"></div>
+
+<!-- ==================== ORBITING TECH STACK ==================== -->
+<section class="orbit-section" id="tech">
+  <div class="section-label">TECH STACK</div>
+  <h2 class="section-title">What I <span class="glow">work with.</span></h2>
+  <div class="orbit-container" id="orbitContainer">
+    <div class="orbit-center">
+      <div class="orbit-center-text">Tech</div>
+      <div class="orbit-center-sub">12 tools</div>
+    </div>
+    <!-- Ring 1: inner -->
+    <div class="orbit-ring orbit-ring-1" id="ring1">
+      <div class="orbit-bubble orbit-bubble-lg" style="top:-36px;left:50%;margin-left:-36px">React</div>
+      <div class="orbit-bubble orbit-bubble-md" style="bottom:-30px;left:50%;margin-left:-30px">Node</div>
+      <div class="orbit-bubble orbit-bubble-md" style="top:50%;left:-30px;margin-top:-30px">TS</div>
+      <div class="orbit-bubble orbit-bubble-sm" style="top:50%;right:-24px;margin-top:-24px">SQL</div>
+    </div>
+    <!-- Ring 2: middle -->
+    <div class="orbit-ring orbit-ring-2" id="ring2">
+      <div class="orbit-bubble orbit-bubble-lg" style="top:-36px;left:50%;margin-left:-36px">Next.js</div>
+      <div class="orbit-bubble orbit-bubble-md" style="bottom:-30px;left:50%;margin-left:-30px">Python</div>
+      <div class="orbit-bubble orbit-bubble-sm" style="top:50%;left:-24px;margin-top:-24px">AWS</div>
+      <div class="orbit-bubble orbit-bubble-md" style="top:50%;right:-30px;margin-top:-30px">Stripe</div>
+    </div>
+    <!-- Ring 3: outer -->
+    <div class="orbit-ring orbit-ring-3" id="ring3">
+      <div class="orbit-bubble orbit-bubble-lg" style="top:-36px;left:50%;margin-left:-36px">Claude</div>
+      <div class="orbit-bubble orbit-bubble-md" style="bottom:-30px;left:50%;margin-left:-30px">Flask</div>
+      <div class="orbit-bubble orbit-bubble-sm" style="top:50%;left:-24px;margin-top:-24px">Spark</div>
+      <div class="orbit-bubble orbit-bubble-md" style="top:50%;right:-30px;margin-top:-30px">Supa</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
 <!-- ==================== PROJECTS ==================== -->
 <section class="section" id="projects">
   <div class="section-label">THE WORK</div>
   <h2 class="section-title">Products I've <span class="glow">shipped.</span></h2>
   <div class="proj-grid">
-    <div class="glass proj-card" onclick="document.getElementById('nux-deep').scrollIntoView({behavior:'smooth'})">
-      <div class="proj-badge" style="background:rgba(139,92,246,0.06);color:#8B5CF6">FLAGSHIP</div>
-      <h3>NUX by Wach</h3>
-      <p class="desc">AI personal intelligence. Understands behavior across career, health, habits — intervenes before you fall behind.</p>
-      <div class="tech"><span>Next.js 16</span><span>Claude Sonnet</span><span>Supabase</span><span>Stripe</span></div>
-      <a href="https://aveio-web.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Live ↗</a>
+
+    <!-- NUX -->
+    <div class="glass proj-showcase" onclick="document.getElementById('nux-deep').scrollIntoView({behavior:'smooth'})">
+      <div class="proj-showcase-top">
+        <div class="proj-showcase-color" style="background:linear-gradient(90deg,#8B5CF6,#D97706)"></div>
+        <div class="proj-num">01</div>
+        <div class="proj-category" style="color:#8B5CF6"><style>.proj-showcase:nth-child(1) .proj-category::before{background:#8B5CF6}</style>AI AGENT • FLAGSHIP</div>
+        <h3>NUX by Wach</h3>
+        <div class="tech"><span>Next.js 16</span><span>Claude Sonnet</span><span>Supabase</span><span>Stripe</span></div>
+        <p class="desc">AI personal intelligence. Understands behavior across career, health, habits — intervenes before you fall behind.</p>
+        <div class="proj-stats">
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#8B5CF6">38</div><div class="proj-stat-label">API Routes</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#8B5CF6">36</div><div class="proj-stat-label">DB Tables</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#8B5CF6">14</div><div class="proj-stat-label">Cron Jobs</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#8B5CF6">3</div><div class="proj-stat-label">Paid Tiers</div></div>
+        </div>
+        <div class="proj-mockup">
+          <div class="proj-device">
+            <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">aveio-web.vercel.app</div></div>
+            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+              <div style="font-size:11px;font-weight:800;color:#8B5CF6;margin-bottom:8px">NUX</div>
+              <div style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.08);border-radius:8px;padding:8px;margin-bottom:6px;font-size:9px;color:rgba(255,255,255,0.5)">Your streak: 12 days. 3 skill gaps found.</div>
+              <div style="background:rgba(217,119,6,0.05);border:1px solid rgba(217,119,6,0.08);border-radius:8px;padding:8px;margin-left:20%;font-size:9px;color:rgba(217,119,6,0.7)">What are the gaps?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-showcase-bottom">
+        <a href="https://aveio-web.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link" onclick="event.stopPropagation()">Live ↗</a>
+        <span style="font-size:11px;color:rgba(255,255,255,0.2)">Scroll for deep dive →</span>
+      </div>
     </div>
-    <div class="glass proj-card" onclick="document.getElementById('distro-deep').scrollIntoView({behavior:'smooth'})">
-      <div class="proj-badge" style="background:rgba(240,160,32,0.06);color:#F0A020">GTM ENGINE</div>
-      <h3>Distro</h3>
-      <p class="desc">AI go-to-market engine. Paste your product brief → ICP, channels, and ready-to-post content for each.</p>
-      <div class="tech"><span>Next.js 14</span><span>Claude API</span><span>Supabase</span><span>Stripe</span></div>
-      <span class="proj-link">Details →</span>
+
+    <!-- Distro -->
+    <div class="glass proj-showcase" onclick="document.getElementById('distro-deep').scrollIntoView({behavior:'smooth'})">
+      <div class="proj-showcase-top">
+        <div class="proj-showcase-color" style="background:linear-gradient(90deg,#F0A020,#D97706)"></div>
+        <div class="proj-num">02</div>
+        <div class="proj-category" style="color:#F0A020">GTM ENGINE</div>
+        <h3>Distro</h3>
+        <div class="tech"><span>Next.js 14</span><span>Claude API</span><span>Supabase</span><span>Stripe</span></div>
+        <p class="desc">AI go-to-market engine. Paste your product brief → ICP, channels, and ready-to-post content for each platform.</p>
+        <div class="proj-stats">
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#F0A020">5</div><div class="proj-stat-label">Pipeline Stages</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#F0A020">6</div><div class="proj-stat-label">Product Types</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#F0A020">AI</div><div class="proj-stat-label">Content Gen</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#F0A020">∞</div><div class="proj-stat-label">Channels</div></div>
+        </div>
+        <div class="proj-mockup">
+          <div class="proj-device">
+            <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">distro.app/pipeline</div></div>
+            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+              <div style="display:flex;gap:3px;margin-bottom:8px"><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(139,92,246,0.08);color:#8B5CF6">DECODE</span><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(240,160,32,0.08);color:#F0A020">CHANNEL</span><span style="flex:1;text-align:center;padding:4px;border-radius:3px;font-size:7px;font-weight:700;background:rgba(45,189,130,0.08);color:#2DBD82">SPEAK</span></div>
+              <div style="background:rgba(240,160,32,0.04);border:1px solid rgba(240,160,32,0.08);border-radius:6px;padding:6px;font-size:8px;color:rgba(255,255,255,0.4)"><b style="color:#F0A020">ICP:</b> Solo SaaS founders, 25-40</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-showcase-bottom">
+        <span class="proj-link">Details →</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.2)">Scroll for deep dive →</span>
+      </div>
     </div>
-    <div class="glass proj-card" onclick="document.getElementById('phantom-deep').scrollIntoView({behavior:'smooth'})">
-      <div class="proj-badge" style="background:rgba(167,139,250,0.06);color:#A78BFA">ENCRYPTED</div>
-      <h3>Phantom Messenger</h3>
-      <p class="desc">Military-grade encrypted messenger. AES-256-GCM, multi-hop relay, panic wipe — zero plaintext on server.</p>
-      <div class="tech"><span>React</span><span>AES-256-GCM</span><span>PBKDF2</span><span>Realtime</span></div>
-      <span class="proj-link">Details →</span>
+
+    <!-- Phantom -->
+    <div class="glass proj-showcase" onclick="document.getElementById('phantom-deep').scrollIntoView({behavior:'smooth'})">
+      <div class="proj-showcase-top">
+        <div class="proj-showcase-color" style="background:linear-gradient(90deg,#A78BFA,#EC4899)"></div>
+        <div class="proj-num">03</div>
+        <div class="proj-category" style="color:#A78BFA">ENCRYPTED MESSENGER</div>
+        <h3>Phantom Messenger</h3>
+        <div class="tech"><span>React</span><span>AES-256-GCM</span><span>PBKDF2</span><span>Realtime</span></div>
+        <p class="desc">Military-grade encrypted messenger. Multi-hop relay, panic wipe — zero plaintext on server.</p>
+        <div class="proj-stats">
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#A78BFA">256</div><div class="proj-stat-label">Bit Encryption</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#A78BFA">5</div><div class="proj-stat-label">Relay Nodes</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#A78BFA">100K</div><div class="proj-stat-label">PBKDF2 Iter</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#A78BFA">7</div><div class="proj-stat-label">Wipe Steps</div></div>
+        </div>
+        <div class="proj-mockup">
+          <div class="proj-device">
+            <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">phantom.app</div></div>
+            <div class="proj-device-body" style="background:#04041A">
+              <div style="display:flex;align-items:center;gap:3px;padding:4px;background:rgba(167,139,250,0.03);border-radius:4px;justify-content:center;margin-bottom:6px;font-size:7px"><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">You</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">A</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(167,139,250,0.08);color:#A78BFA;font-weight:600">B</span><span style="color:rgba(255,255,255,0.15)">→</span><span style="padding:2px 5px;border-radius:2px;background:rgba(236,72,153,0.08);color:#EC4899;font-weight:600">Recv</span></div>
+              <div style="font-size:7px;text-align:center;color:rgba(255,255,255,0.15);letter-spacing:2px">🔒 AES-256-GCM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-showcase-bottom">
+        <span class="proj-link">Details →</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.2)">Scroll for deep dive →</span>
+      </div>
     </div>
-    <div class="glass proj-card" onclick="document.getElementById('ppap-deep').scrollIntoView({behavior:'smooth'})">
-      <div class="proj-badge" style="background:rgba(16,185,129,0.06);color:#10B981">AUTOMOTIVE</div>
-      <h3>PPAP Builder</h3>
-      <p class="desc">18 AIAG elements with AI-generated compliance narratives. Full Part Approval automation.</p>
-      <div class="tech"><span>React</span><span>Express</span><span>Claude</span><span>SQLite</span></div>
-      <span class="proj-link">Details →</span>
+
+    <!-- PPAP -->
+    <div class="glass proj-showcase" onclick="document.getElementById('ppap-deep').scrollIntoView({behavior:'smooth'})">
+      <div class="proj-showcase-top">
+        <div class="proj-showcase-color" style="background:linear-gradient(90deg,#10B981,#06B6D4)"></div>
+        <div class="proj-num">04</div>
+        <div class="proj-category" style="color:#10B981">AUTOMOTIVE COMPLIANCE</div>
+        <h3>PPAP Builder</h3>
+        <div class="tech"><span>React</span><span>Express</span><span>Claude</span><span>SQLite</span></div>
+        <p class="desc">18 AIAG elements with AI-generated compliance narratives. Full Part Approval automation.</p>
+        <div class="proj-stats">
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#10B981">18</div><div class="proj-stat-label">PPAP Elements</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#10B981">5</div><div class="proj-stat-label">Sub Levels</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#10B981">AI</div><div class="proj-stat-label">Narratives</div></div>
+          <div class="proj-stat"><div class="proj-stat-val" style="color:#10B981">4th</div><div class="proj-stat-label">AIAG Edition</div></div>
+        </div>
+        <div class="proj-mockup">
+          <div class="proj-device">
+            <div class="proj-device-bar"><div class="proj-device-dot" style="background:#ff5f57"></div><div class="proj-device-dot" style="background:#ffbd2e"></div><div class="proj-device-dot" style="background:#28c840"></div><div class="proj-device-url">ppap-builder.app</div></div>
+            <div class="proj-device-body" style="background:linear-gradient(180deg,#06061A,#0A0E2A)">
+              <div style="font-size:10px;font-weight:800;color:#10B981;margin-bottom:6px">PPAP Builder</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">18</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Elements</div></div><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">5</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Levels</div></div><div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.08);border-radius:4px;padding:4px;text-align:center"><div style="font-size:14px;font-weight:800;color:#10B981">AI</div><div style="font-size:6px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:1px">Powered</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-showcase-bottom">
+        <span class="proj-link">Details →</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.2)">Scroll for deep dive →</span>
+      </div>
     </div>
-    <div class="glass proj-card">
-      <div class="proj-badge" style="background:rgba(6,182,212,0.06);color:#06B6D4">E-COMMERCE</div>
-      <h3>ReturnGuard AI</h3>
-      <p class="desc">AI return/refund optimization. Reduces fraud, streamlines return workflows, improves customer satisfaction.</p>
-      <div class="tech"><span>React</span><span>TypeScript</span><span>AI/ML</span><span>Analytics</span></div>
-      <span class="proj-link">Details →</span>
+
+    <!-- ReturnGuard (full width) -->
+    <div class="glass proj-showcase" style="grid-column:span 2">
+      <div class="proj-showcase-top">
+        <div class="proj-showcase-color" style="background:linear-gradient(90deg,#06B6D4,#8B5CF6)"></div>
+        <div class="proj-num">05</div>
+        <div class="proj-category" style="color:#06B6D4">E-COMMERCE AI</div>
+        <h3>ReturnGuard AI</h3>
+        <div class="tech"><span>React</span><span>TypeScript</span><span>AI/ML</span><span>Analytics</span><span>Dashboard</span></div>
+        <p class="desc">AI return/refund optimization. Reduces fraud, streamlines return workflows, improves customer satisfaction. Pattern detection across return behavior.</p>
+      </div>
+      <div class="proj-showcase-bottom">
+        <span class="proj-link">Coming Soon →</span>
+      </div>
     </div>
+
   </div>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ==================== NUX DEEP DIVE ==================== -->
 <section class="deep" id="nux-deep">
@@ -495,28 +701,106 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
   </div>
 </section>
 
-<!-- ==================== SKILLS ==================== -->
-<section class="section" id="skills">
-  <div class="section-label">CAPABILITIES</div>
-  <h2 class="section-title">What I <span class="glow">work with.</span></h2>
-  <div class="sk-grid">
-    <div class="glass sk-cat"><h4>💻 Languages & Frameworks</h4><div class="sk-pills"><span class="sk-pill">Next.js</span><span class="sk-pill">React</span><span class="sk-pill">TypeScript</span><span class="sk-pill">Python</span><span class="sk-pill">Node.js</span><span class="sk-pill">Express</span><span class="sk-pill">Vite</span><span class="sk-pill">GSAP</span><span class="sk-pill">Three.js</span><span class="sk-pill">Tailwind</span></div></div>
-    <div class="glass sk-cat"><h4>🧠 AI & Data</h4><div class="sk-pills"><span class="sk-pill">Claude API</span><span class="sk-pill">LangChain</span><span class="sk-pill">TensorFlow</span><span class="sk-pill">SQL</span><span class="sk-pill">PostgreSQL</span><span class="sk-pill">Snowflake</span><span class="sk-pill">Power BI</span><span class="sk-pill">Tableau</span></div></div>
-    <div class="glass sk-cat"><h4>🚀 Infrastructure</h4><div class="sk-pills"><span class="sk-pill">Supabase</span><span class="sk-pill">Stripe</span><span class="sk-pill">Vercel</span><span class="sk-pill">Git</span><span class="sk-pill">Figma</span><span class="sk-pill">AES-256-GCM</span><span class="sk-pill">RLS</span><span class="sk-pill">Webhooks</span></div></div>
+<div class="section-divider"></div>
+
+<!-- ==================== CERTIFICATIONS ==================== -->
+<section class="section" id="certs">
+  <div class="section-label">CERTIFICATIONS</div>
+  <h2 class="section-title">Credentials & <span class="glow">learning.</span></h2>
+  <div class="cert-grid">
+    <div class="glass cert-card">
+      <div class="cert-icon" style="background:rgba(0,102,204,0.08);border:1px solid rgba(0,102,204,0.15);color:#0066CC">SAP</div>
+      <div class="cert-info">
+        <h4>Foundations of Business Analysis</h4>
+        <div class="cert-issuer">SAP</div>
+        <div class="cert-date">Issued Jan 2026</div>
+        <div class="cert-id">ID: HSK7W0IXBAOU</div>
+        <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="cert-link">See credential ↗</a>
+      </div>
+    </div>
+    <div class="glass cert-card">
+      <div class="cert-icon" style="background:rgba(0,102,204,0.08);border:1px solid rgba(0,102,204,0.15);color:#0066CC">SAP</div>
+      <div class="cert-info">
+        <h4>Requirements Gathering and Documentation</h4>
+        <div class="cert-issuer">SAP</div>
+        <div class="cert-date">Issued Jan 2026</div>
+        <div class="cert-id">ID: CVP979EU92D6</div>
+        <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="cert-link">See credential ↗</a>
+      </div>
+    </div>
+    <div class="glass cert-card">
+      <div class="cert-icon" style="background:rgba(0,119,181,0.08);border:1px solid rgba(0,119,181,0.15);color:#0077B5">in</div>
+      <div class="cert-info">
+        <h4>Project Management for Business Process Improvement</h4>
+        <div class="cert-issuer">LinkedIn Learning</div>
+        <div class="cert-date">Issued Nov 2025</div>
+        <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="cert-link">See credential ↗</a>
+      </div>
+    </div>
+    <div class="glass cert-card">
+      <div class="cert-icon" style="background:rgba(0,119,181,0.08);border:1px solid rgba(0,119,181,0.15);color:#0077B5">in</div>
+      <div class="cert-info">
+        <h4>Business Analysis Foundations</h4>
+        <div class="cert-issuer">LinkedIn Learning</div>
+        <div class="cert-date">Issued Feb 2024</div>
+        <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="cert-link">See credential ↗</a>
+      </div>
+    </div>
   </div>
 </section>
 
+<div class="section-divider"></div>
+
 <!-- ==================== CONTACT ==================== -->
 <section class="section" id="contact">
-  <div class="contact-box">
-    <div class="section-label" style="justify-content:center">LET'S CONNECT</div>
-    <h2 class="section-title" style="text-align:center">Ready to <span class="glow">build together?</span></h2>
-    <p style="font-size:16px;color:rgba(255,255,255,0.4);line-height:1.8;margin-bottom:36px">Entrepreneur, engineer, builder. If you're working on something that matters, let's talk.</p>
-    <div class="c-links">
-      <a href="mailto:vijay.nagallapati98@gmail.com" class="glass">📧 Email</a>
-      <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="glass">💼 LinkedIn</a>
-      <a href="https://github.com/n98vijay-hub" target="_blank" rel="noopener noreferrer" class="glass">💻 GitHub</a>
-      <a href="https://aveio-web.vercel.app" target="_blank" rel="noopener noreferrer" class="glass">🚀 NUX Live</a>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="section-label">LET'S CONNECT</div>
+      <h2>Ready to <span class="glow">build together?</span></h2>
+      <p>Entrepreneur, engineer, builder. If you're working on something that matters, let's talk.</p>
+      <div class="contact-links">
+        <a href="mailto:vijay.nagallapati98@gmail.com" class="glass contact-link-item">
+          <div class="contact-link-icon" style="background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.15)">📧</div>
+          <div><div class="contact-link-label">Email</div><div class="contact-link-value">vijay.nagallapati98@gmail.com</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/vijay-nagallapati" target="_blank" rel="noopener noreferrer" class="glass contact-link-item">
+          <div class="contact-link-icon" style="background:rgba(0,119,181,0.08);border:1px solid rgba(0,119,181,0.15)">💼</div>
+          <div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">vijay-nagallapati</div></div>
+        </a>
+        <a href="https://github.com/n98vijay-hub" target="_blank" rel="noopener noreferrer" class="glass contact-link-item">
+          <div class="contact-link-icon" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15)">💻</div>
+          <div><div class="contact-link-label">GitHub</div><div class="contact-link-value">n98vijay-hub</div></div>
+        </a>
+        <a href="https://aveio-web.vercel.app" target="_blank" rel="noopener noreferrer" class="glass contact-link-item">
+          <div class="contact-link-icon" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15)">🚀</div>
+          <div><div class="contact-link-label">NUX Live</div><div class="contact-link-value">aveio-web.vercel.app</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="glass contact-form-card">
+      <div class="contact-form-header">
+        <div class="contact-form-dots"><span style="background:#ff5f57"></span><span style="background:#ffbd2e"></span><span style="background:#28c840"></span></div>
+        <span class="contact-form-title">Let's connect...</span>
+      </div>
+      <form id="contactForm" onsubmit="handleContact(event)">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="cName" placeholder="Your name" required/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="cEmail" placeholder="your@email.com" required/>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" id="cSubject" placeholder="What's this about?"/>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="cMessage" placeholder="Your message..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message ↗</button>
+      </form>
     </div>
   </div>
 </section>
@@ -524,6 +808,17 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 <div class="footer">Built by Vijay Nagallapati • 2026 • Prosper, Texas</div>
 
 <script>
+// ==================== CONTACT FORM → MAILTO ====================
+function handleContact(e){
+  e.preventDefault();
+  const name = document.getElementById('cName').value;
+  const email = document.getElementById('cEmail').value;
+  const subject = document.getElementById('cSubject').value || 'Portfolio Contact';
+  const message = document.getElementById('cMessage').value;
+  const body = `Hi Vijay,\n\nName: ${name}\nEmail: ${email}\n\n${message}`;
+  window.location.href = `mailto:vijay.nagallapati98@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 // ==================== PRELOADER ====================
 const preloader = document.getElementById('preloader');
 const preloaderName = document.querySelector('.preloader-name');
@@ -542,7 +837,6 @@ let cx=0,cy=0,rx=0,ry=0;
 document.addEventListener('mousemove', e => {
   cx = e.clientX; cy = e.clientY;
   dot.style.transform = `translate(${cx-4}px,${cy-4}px)`;
-  // Spotlight
   document.getElementById('spotlight').style.setProperty('--mx', cx+'px');
   document.getElementById('spotlight').style.setProperty('--my', cy+'px');
 });
@@ -556,12 +850,12 @@ function cursorLoop(){
 cursorLoop();
 
 // Hover expand
-document.querySelectorAll('a,.proj-card,.exp-card,.sk-pill,.feat-item,.glass,.hero-tag,.btn-primary,.btn-outline,.status-badge').forEach(el => {
+document.querySelectorAll('a,.proj-showcase,.exp-card,.sk-pill,.feat-item,.glass,.hero-tag,.btn-primary,.btn-outline,.status-badge,.orbit-bubble,.cert-card').forEach(el => {
   el.addEventListener('mouseenter', () => ring.classList.add('hover'));
   el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
 });
 
-// Card spotlight (mouse-tracking radial gradient on each card)
+// Card spotlight
 document.querySelectorAll('.glass').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
@@ -714,27 +1008,33 @@ animate();
 // ==================== GSAP ANIMATIONS ====================
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero entrance (after preloader)
+// Hero entrance
 gsap.to('#heroContent', {opacity:1, y:0, duration:1.2, ease:'power4.out', delay:1.2});
 gsap.to('#heroPhoto', {opacity:1, y:0, duration:1.2, ease:'power4.out', delay:1.4});
 
 // Sections
-document.querySelectorAll('.section').forEach(sec => {
+document.querySelectorAll('.section,.orbit-section').forEach(sec => {
   const label = sec.querySelector('.section-label');
   const title = sec.querySelector('.section-title');
   if(label) gsap.from(label, {opacity:0, x:-30, duration:0.8, scrollTrigger:{trigger:sec, start:'top 80%'}});
   if(title) gsap.from(title, {opacity:0, y:30, duration:0.8, delay:0.1, scrollTrigger:{trigger:sec, start:'top 80%'}});
 });
 
-// Experience cards stagger
+// Experience cards
 gsap.utils.toArray('.exp-card').forEach((c,i) => {
   gsap.to(c, {opacity:1, y:0, scale:1, duration:0.9, delay:i*0.1, ease:'power3.out',
     scrollTrigger:{trigger:c, start:'top 90%'}});
 });
 
-// Project cards stagger
-gsap.utils.toArray('.proj-card').forEach((c,i) => {
-  gsap.to(c, {opacity:1, y:0, duration:0.9, delay:i*0.08, ease:'power3.out',
+// Project showcase cards
+gsap.utils.toArray('.proj-showcase').forEach((c,i) => {
+  gsap.to(c, {opacity:1, y:0, duration:0.9, delay:i*0.12, ease:'power3.out',
+    scrollTrigger:{trigger:c, start:'top 90%'}});
+});
+
+// Cert cards
+gsap.utils.toArray('.cert-card').forEach((c,i) => {
+  gsap.to(c, {opacity:1, y:0, duration:0.7, delay:i*0.1, ease:'power3.out',
     scrollTrigger:{trigger:c, start:'top 90%'}});
 });
 
@@ -744,35 +1044,32 @@ document.querySelectorAll('.deep-grid').forEach(el => {
     scrollTrigger:{trigger:el, start:'top 85%'}});
 });
 
-// Skill cards
-gsap.utils.toArray('.sk-cat').forEach((c,i) => {
-  gsap.from(c, {opacity:0, y:30, duration:0.7, delay:i*0.12,
-    scrollTrigger:{trigger:c, start:'top 90%'}});
-});
+// Orbit container
+gsap.from('#orbitContainer', {opacity:0, scale:0.7, duration:1.2, ease:'power3.out',
+  scrollTrigger:{trigger:'#orbitContainer', start:'top 85%'}});
 
-// 3D Tilt effect — uses style properties instead of transform to avoid GSAP conflicts
-document.querySelectorAll('.proj-card,.mock,.photo-frame').forEach(el => {
-  el.style.transition = 'filter 0.3s';
+// Contact wrapper
+gsap.from('.contact-wrapper', {opacity:0, y:40, duration:1, ease:'power3.out',
+  scrollTrigger:{trigger:'.contact-wrapper', start:'top 85%'}});
+
+// 3D Tilt
+document.querySelectorAll('.proj-showcase,.mock,.photo-frame').forEach(el => {
   el.addEventListener('mousemove', e => {
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left)/r.width - 0.5;
     const y = (e.clientY - r.top)/r.height - 0.5;
-    el.style.setProperty('--tilt-x', `${-y*8}deg`);
-    el.style.setProperty('--tilt-y', `${x*8}deg`);
-    // Apply via separate style so GSAP transform isn't overwritten
-    if(!el.dataset.gsapDone) el.style.transform = `perspective(800px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
+    if(!el.dataset.gsapDone) el.style.transform = `perspective(800px) rotateY(${x*6}deg) rotateX(${-y*6}deg) translateY(-4px)`;
   });
   el.addEventListener('mouseleave', () => {
     if(!el.dataset.gsapDone) el.style.transform = '';
   });
 });
-// Mark elements after GSAP scroll animation completes
 setTimeout(() => {
-  document.querySelectorAll('.proj-card,.mock').forEach(el => { el.dataset.gsapDone = ''; });
+  document.querySelectorAll('.proj-showcase,.mock').forEach(el => { el.dataset.gsapDone = ''; });
 }, 3000);
 
-// Magnetic buttons — uses translate without conflicting with hover
-document.querySelectorAll('.btn-primary,.btn-outline').forEach(btn => {
+// Magnetic buttons
+document.querySelectorAll('.btn-primary,.btn-outline,.form-submit').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const r = btn.getBoundingClientRect();
     const x = e.clientX - r.left - r.width/2;
