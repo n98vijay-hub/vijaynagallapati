@@ -1191,22 +1191,44 @@ gsap.to('#heroContent', {opacity:1, duration:0.01, delay:1});
 gsap.to('#heroPhoto', {opacity:1, y:0, duration:1.2, ease:'power4.out', delay:1.4});
 
 // ===== TEXT REVEAL ON SCROLL =====
-document.querySelectorAll('.section-title').forEach(title => {
-  const text = title.innerHTML;
-  // Split text into words while preserving HTML tags
-  const words = text.split(/(\s+)/);
-  title.innerHTML = '';
-  title.classList.add('text-reveal');
-  words.forEach(word => {
-    if(word.trim() === '') {
-      title.appendChild(document.createTextNode(' '));
-    } else {
-      const span = document.createElement('span');
-      span.className = 'word';
-      span.innerHTML = word;
-      title.appendChild(span);
+function wrapTextNodes(el){
+  // Walk child nodes, wrap only text node words, leave element nodes intact
+  const frag = document.createDocumentFragment();
+  el.childNodes.forEach(node => {
+    if(node.nodeType === 3){ // text node
+      const words = node.textContent.split(/(\s+)/);
+      words.forEach(w => {
+        if(w.trim() === ''){ frag.appendChild(document.createTextNode(w)); }
+        else {
+          const s = document.createElement('span');
+          s.className = 'word';
+          s.textContent = w;
+          frag.appendChild(s);
+        }
+      });
+    } else if(node.nodeType === 1){ // element node (e.g. <span class="glow">)
+      const clone = node.cloneNode(false);
+      // Wrap words inside the child element too
+      const innerWords = node.textContent.split(/(\s+)/);
+      innerWords.forEach(w => {
+        if(w.trim() === ''){ clone.appendChild(document.createTextNode(w)); }
+        else {
+          const s = document.createElement('span');
+          s.className = 'word';
+          s.textContent = w;
+          clone.appendChild(s);
+        }
+      });
+      frag.appendChild(clone);
     }
   });
+  el.innerHTML = '';
+  el.appendChild(frag);
+}
+
+document.querySelectorAll('.section-title').forEach(title => {
+  wrapTextNodes(title);
+  title.classList.add('text-reveal');
 
   ScrollTrigger.create({
     trigger: title,
