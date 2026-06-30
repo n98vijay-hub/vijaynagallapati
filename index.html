@@ -8,19 +8,41 @@
 <meta property="og:description" content="I build AI products from zero to shipped. Five products live — NUX, Distro, Phantom, PPAP Builder, ReturnGuard AI."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://vijaynagallapati.vercel.app"/>
+<meta property="og:image" content="https://vijaynagallapati.vercel.app/og.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Vijay Nagallapati — Entrepreneur & Engineer"/>
 <meta name="twitter:description" content="I build AI products from zero to shipped. Five products live."/>
+<meta name="twitter:image" content="https://vijaynagallapati.vercel.app/og.png"/>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 @media(min-width:769px){*{cursor:none}}
-html{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto}
 body{font-family:'Inter',sans-serif;background:#030014;color:#E8EAF0;overflow-x:hidden}
+
+/* === SKIP LINK === */
+.skip-link{position:fixed;top:-100%;left:16px;z-index:100001;padding:12px 24px;background:#D97706;color:#030014;font-weight:700;font-size:14px;border-radius:0 0 8px 8px;text-decoration:none;transition:top 0.3s}
+.skip-link:focus{top:0}
+
+/* === SCROLL PROGRESS === */
+.scroll-progress{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,#D97706,#8B5CF6,#D97706);background-size:200% 100%;animation:gradFlow 3s ease infinite;z-index:10002;pointer-events:none}
+
+/* === TEXT REVEAL === */
+.text-reveal .word{display:inline-block;opacity:0.08;transform:translateY(8px);transition:opacity 0.5s ease,transform 0.5s ease}
+.text-reveal .word.revealed{opacity:1;transform:translateY(0)}
+
+/* === HOVER IMAGE FOLLOWER === */
+.proj-hover-img{position:fixed;width:320px;height:200px;border-radius:12px;pointer-events:none;z-index:50;opacity:0;transition:opacity 0.3s ease;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);border:1px solid rgba(139,92,246,0.1)}
+.proj-hover-img img{width:100%;height:100%;object-fit:cover}
+
+/* === FOCUS RINGS === */
+:focus-visible{outline:2px solid #D97706;outline-offset:3px;border-radius:4px}
 
 /* === PRELOADER === */
 .preloader{position:fixed;inset:0;z-index:20000;background:#030014;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
@@ -345,10 +367,20 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
   .orbit-center{width:80px;height:80px}
   .orbit-center-text{font-size:9px}
   .section-divider{padding:0 24px}
+  .proj-hover-img{display:none!important}
+}
+
+/* === REDUCED MOTION === */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
+  .orbit-ring{animation:none!important}
+  #three-bg{opacity:0.3}
 }
 </style>
 </head>
 <body>
+<a href="#hero" class="skip-link">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- PRELOADER -->
 <div class="preloader" id="preloader">
@@ -370,7 +402,7 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 <canvas id="three-bg"></canvas>
 
 <!-- NAV -->
-<nav class="nav" id="mainNav">
+<nav class="nav" id="mainNav" role="navigation" aria-label="Main navigation">
   <div class="nav-logo"><span class="glow">VN</span></div>
   <div class="nav-links">
     <a href="#experience">Experience</a><a href="#tech">Tech</a><a href="#projects">Projects</a><a href="#certs">Certs</a><a href="#contact">Contact</a>
@@ -378,6 +410,7 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
 </nav>
 
 <!-- ==================== HERO ==================== -->
+<main role="main">
 <section class="hero" id="hero">
   <div class="hero-grid">
     <div class="hero-content" id="heroContent">
@@ -887,9 +920,18 @@ background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(139,
   </div>
 </section>
 
-<div class="footer">Built by Vijay Nagallapati • 2026 • Prosper, Texas</div>
+</main>
+
+<!-- HOVER IMAGE FOLLOWER -->
+<div class="proj-hover-img" id="projHoverImg"></div>
+
+<footer class="footer" role="contentinfo">Built by Vijay Nagallapati • 2026 • Prosper, Texas</footer>
 
 <script>
+// ==================== REDUCED MOTION CHECK ====================
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.innerWidth <= 768;
+
 // ==================== CONTACT FORM → MAILTO ====================
 function handleContact(e){
   e.preventDefault();
@@ -900,6 +942,30 @@ function handleContact(e){
   const body = `Hi Vijay,\n\nName: ${name}\nEmail: ${email}\n\n${message}`;
   window.location.href = `mailto:vijay.nagallapati98@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
+
+// ==================== LENIS SMOOTH SCROLL ====================
+let lenis;
+if(!prefersReduced && !isMobile){
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    smoothWheel: true
+  });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+
+// ==================== SCROLL PROGRESS BAR ====================
+const scrollProgressBar = document.getElementById('scrollProgress');
+function updateScrollProgress(){
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  scrollProgressBar.style.width = progress + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, {passive:true});
 
 // ==================== PRELOADER ====================
 const preloader = document.getElementById('preloader');
@@ -948,15 +1014,16 @@ document.querySelectorAll('.glass').forEach(card => {
 
 // ==================== THREE.JS ====================
 const canvas = document.getElementById('three-bg');
-const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+const renderer = new THREE.WebGLRenderer({canvas, antialias:!isMobile, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 2000);
 camera.position.z = 60;
+const cameraBaseZ = 60;
 
-// --- PARTICLES ---
-const pCount = 900;
+// --- PARTICLES (reduced on mobile) ---
+const pCount = isMobile ? 400 : 900;
 const pPos = new Float32Array(pCount*3);
 const pCol = new Float32Array(pCount*3);
 const pSz = new Float32Array(pCount);
@@ -1002,20 +1069,22 @@ const pMat = new THREE.ShaderMaterial({
 });
 scene.add(new THREE.Points(pGeo, pMat));
 
-// --- CONNECTIONS ---
-const lineMat = new THREE.LineBasicMaterial({color:0x8B5CF6, transparent:true, opacity:0.035});
-const linePos = [];
-for(let i=0; i<pCount; i++){
-  for(let j=i+1; j<pCount; j++){
-    const dx=pPos[i*3]-pPos[j*3], dy=pPos[i*3+1]-pPos[j*3+1], dz=pPos[i*3+2]-pPos[j*3+2];
-    if(Math.sqrt(dx*dx+dy*dy+dz*dz) < 13){
-      linePos.push(pPos[i*3],pPos[i*3+1],pPos[i*3+2], pPos[j*3],pPos[j*3+1],pPos[j*3+2]);
+// --- CONNECTIONS (skip on mobile for perf) ---
+if(!isMobile){
+  const lineMat = new THREE.LineBasicMaterial({color:0x8B5CF6, transparent:true, opacity:0.035});
+  const linePos = [];
+  for(let i=0; i<pCount; i++){
+    for(let j=i+1; j<pCount; j++){
+      const dx=pPos[i*3]-pPos[j*3], dy=pPos[i*3+1]-pPos[j*3+1], dz=pPos[i*3+2]-pPos[j*3+2];
+      if(Math.sqrt(dx*dx+dy*dy+dz*dz) < 13){
+        linePos.push(pPos[i*3],pPos[i*3+1],pPos[i*3+2], pPos[j*3],pPos[j*3+1],pPos[j*3+2]);
+      }
     }
   }
+  const lineGeo = new THREE.BufferGeometry();
+  lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
+  scene.add(new THREE.LineSegments(lineGeo, lineMat));
 }
-const lineGeo = new THREE.BufferGeometry();
-lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
-scene.add(new THREE.LineSegments(lineGeo, lineMat));
 
 // --- WIREFRAMES ---
 const wireMat = c => new THREE.MeshBasicMaterial({color:c, wireframe:true, transparent:true, opacity:0.05});
@@ -1057,21 +1126,32 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// ==================== SCROLL-DRIVEN 3D CAMERA DOLLY ====================
+let scrollProgress = 0;
+window.addEventListener('scroll', () => {
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress = docHeight > 0 ? window.scrollY / docHeight : 0;
+}, {passive:true});
+
 function animate(){
   requestAnimationFrame(animate);
   const t = Date.now()*0.00025;
   const pa = pGeo.attributes.position.array;
-  for(let i=0; i<pCount; i++){
-    pa[i*3+1] += Math.sin(t + pSeed[i]*0.2) * 0.003;
-    pa[i*3]   += Math.cos(t*0.7 + pSeed[i]*0.15) * 0.002;
-  }
-  pGeo.attributes.position.needsUpdate = true;
 
-  const sa = pGeo.attributes.size.array;
-  for(let i=0; i<pCount; i++){
-    sa[i] = pSz[i] * (0.55 + 0.45*Math.sin(t*3.5 + pSeed[i]*2));
+  // Only update every other frame on mobile
+  if(!isMobile || Math.round(t*4000) % 2 === 0){
+    for(let i=0; i<pCount; i++){
+      pa[i*3+1] += Math.sin(t + pSeed[i]*0.2) * 0.003;
+      pa[i*3]   += Math.cos(t*0.7 + pSeed[i]*0.15) * 0.002;
+    }
+    pGeo.attributes.position.needsUpdate = true;
+
+    const sa = pGeo.attributes.size.array;
+    for(let i=0; i<pCount; i++){
+      sa[i] = pSz[i] * (0.55 + 0.45*Math.sin(t*3.5 + pSeed[i]*2));
+    }
+    pGeo.attributes.size.needsUpdate = true;
   }
-  pGeo.attributes.size.needsUpdate = true;
 
   shapes.forEach((s,i) => {
     s.mesh.rotation.x += 0.0008*(i+1);
@@ -1079,6 +1159,12 @@ function animate(){
     s.mesh.position.y += Math.sin(t + i) * 0.008;
   });
   torus.rotation.z += 0.0015;
+
+  // Scroll-driven camera dolly — fly through particle field
+  const targetZ = cameraBaseZ - scrollProgress * 35;
+  const targetRotX = scrollProgress * 0.15;
+  camera.position.z += (targetZ - camera.position.z) * 0.04;
+  camera.rotation.x += (targetRotX - camera.rotation.x) * 0.04;
 
   camera.position.x += (mX*6 - camera.position.x) * 0.012;
   camera.position.y += (-mY*6 - camera.position.y) * 0.012;
@@ -1090,16 +1176,58 @@ animate();
 // ==================== GSAP ANIMATIONS ====================
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero entrance
-gsap.to('#heroContent', {opacity:1, y:0, duration:1.2, ease:'power4.out', delay:1.2});
+// ===== CINEMATIC HERO ENTRANCE (Spring stagger) =====
+const heroTL = gsap.timeline({delay:1.1});
+heroTL
+  .to('.status-badge', {opacity:1, y:0, duration:0.6, ease:'back.out(1.4)'})
+  .to('.hero-name', {opacity:1, y:0, duration:0.8, ease:'power4.out'}, '-=0.3')
+  .to('.hero-desc', {opacity:1, y:0, duration:0.7, ease:'power3.out'}, '-=0.4')
+  .to('.hero-tags', {opacity:1, y:0, duration:0.6, ease:'power3.out'}, '-=0.3')
+  .to('.hero-cta', {opacity:1, y:0, duration:0.6, ease:'power3.out'}, '-=0.2');
+
+// Set initial states for hero children
+gsap.set(['.status-badge','.hero-name','.hero-desc','.hero-tags','.hero-cta'], {opacity:0, y:25});
+gsap.to('#heroContent', {opacity:1, duration:0.01, delay:1});
 gsap.to('#heroPhoto', {opacity:1, y:0, duration:1.2, ease:'power4.out', delay:1.4});
 
-// Sections
+// ===== TEXT REVEAL ON SCROLL =====
+document.querySelectorAll('.section-title').forEach(title => {
+  const text = title.innerHTML;
+  // Split text into words while preserving HTML tags
+  const words = text.split(/(\s+)/);
+  title.innerHTML = '';
+  title.classList.add('text-reveal');
+  words.forEach(word => {
+    if(word.trim() === '') {
+      title.appendChild(document.createTextNode(' '));
+    } else {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.innerHTML = word;
+      title.appendChild(span);
+    }
+  });
+
+  ScrollTrigger.create({
+    trigger: title,
+    start: 'top 85%',
+    end: 'top 40%',
+    scrub: 0.8,
+    onUpdate: self => {
+      const words = title.querySelectorAll('.word');
+      words.forEach((w, i) => {
+        const threshold = i / words.length;
+        if(self.progress > threshold) w.classList.add('revealed');
+        else w.classList.remove('revealed');
+      });
+    }
+  });
+});
+
+// Section labels
 document.querySelectorAll('.section,.orbit-section').forEach(sec => {
   const label = sec.querySelector('.section-label');
-  const title = sec.querySelector('.section-title');
   if(label) gsap.from(label, {opacity:0, x:-30, duration:0.8, scrollTrigger:{trigger:sec, start:'top 80%'}});
-  if(title) gsap.from(title, {opacity:0, y:30, duration:0.8, delay:0.1, scrollTrigger:{trigger:sec, start:'top 80%'}});
 });
 
 // Experience cards
@@ -1120,11 +1248,22 @@ gsap.utils.toArray('.cert-card').forEach((c,i) => {
     scrollTrigger:{trigger:c, start:'top 90%'}});
 });
 
-// Deep dives
+// Deep dives — parallax
 document.querySelectorAll('.deep-grid').forEach(el => {
   gsap.from(el, {opacity:0, y:60, duration:1, ease:'power3.out',
     scrollTrigger:{trigger:el, start:'top 85%'}});
 });
+
+// Parallax on deep dive mockups
+if(!isMobile){
+  document.querySelectorAll('.mock').forEach(mock => {
+    gsap.to(mock, {y:-40, ease:'none',
+      scrollTrigger:{trigger:mock, start:'top bottom', end:'bottom top', scrub:0.6}});
+  });
+  // Parallax on photo
+  gsap.to('#heroPhoto', {y:60, ease:'none',
+    scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom top', scrub:0.6}});
+}
 
 // Orbit container
 gsap.from('#orbitContainer', {opacity:0, scale:0.7, duration:1.2, ease:'power3.out',
@@ -1150,13 +1289,14 @@ setTimeout(() => {
   document.querySelectorAll('.proj-showcase,.mock').forEach(el => { el.dataset.gsapDone = ''; });
 }, 3000);
 
-// Magnetic buttons
-document.querySelectorAll('.btn-primary,.btn-outline,.form-submit').forEach(btn => {
+// ==================== MAGNETIC BUTTONS + NAV LINKS ====================
+document.querySelectorAll('.btn-primary,.btn-outline,.form-submit,.nav-links a').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const r = btn.getBoundingClientRect();
     const x = e.clientX - r.left - r.width/2;
     const y = e.clientY - r.top - r.height/2;
-    btn.style.translate = `${x*0.15}px ${y*0.15}px`;
+    const strength = btn.classList.contains('nav-links') || btn.parentElement?.classList.contains('nav-links') ? 0.25 : 0.15;
+    btn.style.translate = `${x*strength}px ${y*strength}px`;
   });
   btn.addEventListener('mouseleave', () => { btn.style.translate = ''; });
 });
@@ -1165,6 +1305,39 @@ document.querySelectorAll('.btn-primary,.btn-outline,.form-submit').forEach(btn 
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('visible', window.scrollY > 200);
 });
+
+// ==================== HOVER IMAGE FOLLOWER (Projects) ====================
+if(!isMobile){
+  const hoverImg = document.getElementById('projHoverImg');
+  const projColors = ['#8B5CF6','#F0A020','#A78BFA','#10B981','#06B6D4'];
+  const projNames = ['NUX','Distro','Phantom','PPAP','ReturnGuard'];
+
+  document.querySelectorAll('.proj-showcase').forEach((card, idx) => {
+    card.addEventListener('mouseenter', () => {
+      hoverImg.style.background = `linear-gradient(135deg, ${projColors[idx]}22, ${projColors[idx]}08)`;
+      hoverImg.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+        <span style="font-size:48px;font-weight:900;color:${projColors[idx]};opacity:0.15">${String(idx+1).padStart(2,'0')}</span>
+        <span style="font-size:14px;font-weight:700;color:${projColors[idx]};letter-spacing:3px;text-transform:uppercase">${projNames[idx]}</span>
+      </div>`;
+      hoverImg.style.opacity = '1';
+      hoverImg.style.borderColor = projColors[idx] + '33';
+    });
+    card.addEventListener('mousemove', e => {
+      hoverImg.style.left = (e.clientX + 20) + 'px';
+      hoverImg.style.top = (e.clientY - 100) + 'px';
+    });
+    card.addEventListener('mouseleave', () => {
+      hoverImg.style.opacity = '0';
+    });
+  });
+}
+
+// ==================== MOBILE TOUCH: Swipe between sections ====================
+if(isMobile){
+  let touchStartY = 0;
+  const sections = Array.from(document.querySelectorAll('.section,.orbit-section,.deep,.counter-section'));
+  document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive:true});
+}
 
 // ==================== DISTRO PIPELINE ANIMATION ====================
 function animatePipeline(){
@@ -1179,7 +1352,6 @@ function animatePipeline(){
   lightUp();
   setInterval(lightUp, 1500);
 }
-// Start when visible
 const pipeObs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting){ animatePipeline(); pipeObs.disconnect(); }});
 }, {threshold:0.3});
